@@ -18,14 +18,14 @@ After that, do following steps:
    - eval_limited_iteration_isev/
 5. Execute 'prepare.sh' under each of the three directories.
 5. You can conduct Experiment 1 with the following commands:
-     (cd eval_limited_iteration_gev/;  ./experiment1.sh)
-     (cd eval_limited_iteration_inv/;  ./experiment1.sh)
-     (cd eval_limited_iteration_isev/; ./experiment1.sh)
+   - (cd eval_limited_iteration_gev/;  ./experiment1.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment1.sh)
+   - (cd eval_limited_iteration_isev/; ./experiment1.sh)
 6. You can conduct Experiment 2 with the following commands:
-     (cd eval_limited_iteration_inv/;  ./experiment2.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment2.sh)
 7. You can conduct Experiment 1 with the following commands:
-     (cd eval_limited_iteration_gev/;  ./experiment3.sh)
-     (cd eval_limited_iteration_inv/;  ./experiment3.sh)
-     (cd eval_limited_iteration_isev/; ./experiment3.sh)
+   - (cd eval_limited_iteration_gev/;  ./experiment3.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment3.sh)
+   - (cd eval_limited_iteration_isev/; ./experiment3.sh)
 
 
