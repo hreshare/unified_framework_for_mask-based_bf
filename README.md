@@ -6,7 +6,7 @@ This repository includes experimental systems used in the paper titled "Can all 
 ## How to use
 These systems use the CHiME 4 dataset and depend on its baseline system for this dataset included in the Kaldi Speech Recognition Toolkit. Thus, the following steps are necesarry before using the experimental systems:
 
-1. Obtain the CHiME 4 dataset. See https://spandh.dcs.shef.ac.uk/chime_challenge/chime2016/index.html .
+1. Obtain the CHiME 4 dataset. See https://www.chimechallenge.org/challenges/chime4/index .
 2. Set up the Kaldi Speech Recognition Toolkit. See https://github.com/kaldi-asr/kaldi .
 3. In that toolkit, go to kaldi/egs/chime4/s5_6ch/ and conduct the experiments using the baseline system.
 
