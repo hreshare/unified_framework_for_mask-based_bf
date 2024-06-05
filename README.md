@@ -16,6 +16,7 @@ After that, do following steps:
    - eval_limited_iteration_gev/
    - eval_limited_iteration_inv/
    - eval_limited_iteration_isev/
+5. Execute 'prepare.sh' under each of the three directories.
 5. You can conduct Experiment 1 with the following commands:
      (cd eval_limited_iteration_gev/;  ./experiment1.sh)
      (cd eval_limited_iteration_inv/;  ./experiment1.sh)
