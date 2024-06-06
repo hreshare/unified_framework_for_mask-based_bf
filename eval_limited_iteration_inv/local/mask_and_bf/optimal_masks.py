@@ -271,15 +271,17 @@ class MaskBfEstimator(nn.Module):
         self.target_ch = target_ch
         self.scaling_method = scaling
         self.scaling_mask = None
-        if scaling in ('mask', 'normask', 'absmask'):
+        self.bn_for_scale = None
+        if scaling not in ('ideal', 'mdp'):
             mask = torch.randn((frames, 1, bins), dtype=torch.float)
             self.scaling_mask = nn.parameter.Parameter(mask)
-        if do_bn:
-            self.bn_for_filter = torch.nn.BatchNorm1d(bins*masks_num)
-            self.bn_for_scale = torch.nn.BatchNorm1d(bins)
-        else:
-            self.bn_for_filter = None
-            self.bn_for_scale = None
+            if do_bn:
+                self.bn_for_scale = torch.nn.BatchNorm1d(bins)
+        self.bn_for_filter = None
+        if mode not in ('ideal',):
+            if do_bn:
+                self.bn_for_filter = torch.nn.BatchNorm1d(bins*masks_num)
+
 
     def get_normalized_masks(self):
         masks = self._apply_bn(self.masks, self.bn_for_filter)
@@ -439,8 +441,8 @@ if args.mode not in MODE_TO_MASK_NUM:
 if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'absmask', 'none'):
     raise ValueError('Unknoen scaling method:', args.scaling)
 
-if args.mode == 'ideal' and args.scaling not in ('ideal', 'mdp', 'none'):
-    raise ValueError('Unsupported combination:', args.mode, '&', args.scaling)
+#if args.mode == 'ideal' and args.scaling not in ('ideal', 'mdp', 'none'):
+#    raise ValueError('Unsupported combination:', args.mode, '&', args.scaling)
 
 
 stage = args.flist[:2]
