@@ -441,8 +441,8 @@ if args.mode not in MODE_TO_MASK_NUM:
 if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'absmask', 'none'):
     raise ValueError('Unknoen scaling method:', args.scaling)
 
-#if args.mode == 'ideal' and args.scaling not in ('ideal', 'mdp', 'none'):
-#    raise ValueError('Unsupported combination:', args.mode, '&', args.scaling)
+if args.mode == 'ideal' and args.scaling not in ('ideal', 'mdp', 'none'):
+    raise ValueError('Unsupported combination:', args.mode, '&', args.scaling)
 
 
 stage = args.flist[:2]
