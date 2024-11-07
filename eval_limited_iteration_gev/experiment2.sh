@@ -31,4 +31,4 @@
 ./run.sh --bg_gain 4.0 --mode right_min --scaling ideal --iteration 500 --do_bn False
 
 # Summary
-./summary1.sh
+./summary2.sh

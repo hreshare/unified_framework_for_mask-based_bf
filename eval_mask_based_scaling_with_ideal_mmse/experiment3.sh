@@ -1,5 +1,15 @@
 #!/bin/bash -x
 
+# Ideal MMSE BF & L1-mean-normalized mask
+./run.sh --bg_gain 1.0 --mode ideal_mwf --scaling normask --iteration 500 --do_bn True
+./run.sh --bg_gain 2.0 --mode ideal_mwf --scaling normask --iteration 500 --do_bn True
+./run.sh --bg_gain 4.0 --mode ideal_mwf --scaling normask --iteration 500 --do_bn True
+
+# Ideal MMSE BF & L2-mean-normalized mask
+./run.sh --bg_gain 1.0 --mode ideal_mwf --scaling sqnormask --iteration 500 --do_bn True
+./run.sh --bg_gain 2.0 --mode ideal_mwf --scaling sqnormask --iteration 500 --do_bn True
+./run.sh --bg_gain 4.0 --mode ideal_mwf --scaling sqnormask --iteration 500 --do_bn True
+
 # Ideal MMSE BF & non-negative mask
 ./run.sh --bg_gain 1.0 --mode ideal_mwf --scaling absmask --iteration 500 --do_bn True
 ./run.sh --bg_gain 2.0 --mode ideal_mwf --scaling absmask --iteration 500 --do_bn True
@@ -22,4 +32,4 @@
 
 
 # Summary
-./summary2.sh
+./summary3.sh
