@@ -52,6 +52,7 @@ scaling=mask
 #scaling=ideal
 #scaling=mdp
 #scaling=normask
+#scaling=sqnormask
 #scaling=absmask
 
 iteration=200

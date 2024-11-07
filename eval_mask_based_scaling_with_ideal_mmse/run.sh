@@ -51,6 +51,7 @@ scaling=mask
 #scaling=mdp
 #scaling=ideal
 #scaling=normask
+#scaling=sqnormask
 #scaling=absmask
 #scaling=none
 

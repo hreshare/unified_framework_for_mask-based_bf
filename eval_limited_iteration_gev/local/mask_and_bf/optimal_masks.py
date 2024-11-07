@@ -255,8 +255,6 @@ def to_np(x):
 MODE_BOTH = 0
 MODE_LEFT = 1
 MODE_RIGHT = 2
-MODE_IDEAL_MAX = 3
-MODE_IDEAL_MIN = 4
 
 MODE_INFO = {
     'both_max': (2, MODE_BOTH, False),
@@ -278,7 +276,7 @@ class MaskBfEstimator(nn.Module):
         self.minimize = minimize
         self.scaling_method = scaling
         self.scaling_mask = None
-        if scaling in ('mask', 'normask', 'absmask'):
+        if scaling in ('mask', 'normask', 'sqnormask', 'absmask'):
             mask = torch.randn((frames, 1, bins), dtype=torch.float)
             self.scaling_mask = nn.parameter.Parameter(mask)
         if do_bn:
@@ -294,13 +292,16 @@ class MaskBfEstimator(nn.Module):
 
     def get_scaling_mask(self):
         mask = self._apply_bn(self.scaling_mask, self.bn_for_scale)
-        if self.scaling_method in ('mask', 'normask'):
+        if self.scaling_method == 'mask':
             mask = mask.sigmoid()
+        elif self.scaling_method in ('absmask', 'normask', 'sqnormask'):
+            mask = mask.abs()
             if self.scaling_method == 'normask':
                 mean_mask = mask.mean(dim=0,keepdim=True)
                 mask = mask / mean_mask
-        elif self.scaling_method == 'absmask':
-            mask = mask.abs()
+            elif self.scaling_method == 'sqnormask':
+                sqmean_mask = (mask*mask).mean(dim=0,keepdim=True)
+                mask = mask / sqmean_mask.sqrt()
         return mask
 
     def _apply_bn(self, x, bn):
@@ -347,10 +348,9 @@ class MaskBfEstimator(nn.Module):
         elif self.mode_idx == MODE_LEFT: # startswith('left_'):
             wcov1 = self._calc_wcov(x, masks[:,0,:])
             wcov2 = torch.matmul(x, htp_x) / frames
-        else: # startswith('right_'):
+        else: #if self.mode_idx == MODE_RIGHT:
             wcov1 = torch.matmul(x, htp_x) / frames
             wcov2 = self._calc_wcov(x, masks[:,0,:])
-
         w = self._gevh(wcov1, wcov2, self.minimize)
         y = torch.matmul(self._htp(w), x)
         scaling_target = self._get_scaling_target(x, s, target_ch)
@@ -359,7 +359,7 @@ class MaskBfEstimator(nn.Module):
         return y.T
     
     def _get_scaling_target(self, x, s, target_ch):
-        if self.scaling_method in ('mask', 'normask', 'absmask'):
+        if self.scaling_method in ('mask', 'normask', 'sqnormask', 'absmask'):
             mask = self.get_scaling_mask()
             return mask.T * x[:,target_ch:target_ch+1]
         elif self.scaling_method == 'ideal':
@@ -438,7 +438,7 @@ parser.add_argument('--do_bn', default=True, type=strtobool,
 parser.add_argument('--mode',
                     help='Mode. (both_max|both_min|left_max|left_min|right_max|right_min)')
 parser.add_argument('--scaling',
-                    help='Scaling method. (mask|mdp|ideal|normask|absmask)')
+                    help='Scaling method. (mask|mdp|ideal|normask|sqnormask|absmask)')
 args = parser.parse_args()
 
 if args.track != 6:
@@ -446,7 +446,7 @@ if args.track != 6:
 
 if args.mode not in MODE_INFO:
     raise ValueError('Unknoen mode:', args.mode)
-if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'absmask'):
+if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'sqnormask', 'absmask'):
     raise ValueError('Unknoen scaling method:', args.scaling)
 
 stage = args.flist[:2]

@@ -266,7 +266,7 @@ class ScalingMaskEstimator(nn.Module):
         self.target_ch = target_ch
         self.scaling_method = scaling
         self.scaling_mask = None
-        if scaling in ('mask', 'normask', 'absmask'):
+        if scaling in ('mask', 'normask', 'sqnormask', 'absmask'):
             scaling_mask = torch.randn((frames, 1, bins), dtype=torch.float)
             self.scaling_mask = nn.parameter.Parameter(scaling_mask)
         if do_bn:
@@ -279,13 +279,16 @@ class ScalingMaskEstimator(nn.Module):
 
     def get_scaling_mask(self):
         mask = self._apply_bn(self.scaling_mask, self.bn_for_scale)
-        if self.scaling_method in ('mask', 'normask'):
+        if self.scaling_method == 'mask':
             mask = mask.sigmoid()
+        elif self.scaling_method in ('absmask', 'normask', 'sqnormask'):
+            mask = mask.abs()
             if self.scaling_method == 'normask':
                 mean_mask = mask.mean(dim=0,keepdim=True)
                 mask = mask / mean_mask
-        elif self.scaling_method == 'absmask':
-            mask = mask.abs()
+            elif self.scaling_method == 'sqnormask':
+                sqmean_mask = (mask*mask).mean(dim=0,keepdim=True)
+                mask = mask / sqmean_mask.sqrt()
         return mask
 
     def _apply_bn(self, x, bn):
@@ -352,7 +355,7 @@ class ScalingMaskEstimator(nn.Module):
 
     def _get_scaling_target(self, x, s):
         ch = self.target_ch
-        if self.scaling_method in ('mask', 'normask', 'absmask'):
+        if self.scaling_method in ('mask', 'normask', 'sqnormask', 'absmask'):
             mask = self.get_scaling_mask()
             return mask.T * x[:,ch:ch+1]
         elif self.scaling_method == 'ideal':
@@ -421,7 +424,7 @@ parser.add_argument('--do_bn', default=True, type=strtobool,
 parser.add_argument('--mode',
                     help='Mode. (both|left|right|ideal_mwf)')
 parser.add_argument('--scaling',
-                    help='Scaling method. (mask|mdp|ideal|normask|absmask|none)')
+                    help='Scaling method. (mask|mdp|ideal|normask|sqnormask|absmask|none)')
 args = parser.parse_args()
 
 
@@ -430,7 +433,7 @@ if args.track != 6:
 
 if args.mode not in MODE_TO_MASK_NUM:
     raise ValueError('Unknoen mode:', args.mode)
-if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'absmask', 'none'):
+if args.scaling not in ('mask', 'mdp', 'ideal', 'normask', 'sqnormask', 'absmask', 'none'):
     raise ValueError('Unknoen scaling method:', args.scaling)
 
 if args.mode == 'ideal_mwf':

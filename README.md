@@ -1,6 +1,12 @@
 # Unified framework for mask-based beamformers
-This repository includes experimental systems used in the paper titled "Can all variations within the unified mask-based beamformer framework achieve identical peak extraction performance?"
+This repository includes experimental systems used in the manuscript titled ["Can all variations within the unified mask-based beamformer framework achieve identical peak extraction performance?"](https://arxiv.org/abs/2407.15310)
 
+(Nov. 6th, 2024)
+According to the major revision of the manuscript, experiments were revised as follows:
+
+1. Al experiments were renumbered,as Appendix A was moved to Experiment 1.
+2. New Experiment 3 (old Experiment 2) examins not only non-negative and ratio masks but also L1-mean-normalized (MN) and l2-MN masks as scaling masks.
+3. New Experiment 4 (old Experiment 3) employs the L1-MN mask instead of non-negative one as a scaling mask.
 
 
 ## How to use
@@ -18,15 +24,19 @@ After that, do following steps:
    - eval_limited_iteration_isev/
    - eval_mask_based_scaling_with_ideal_mmse/
 5. Execute 'prepare.sh' under each of the three directories.
-5. You can conduct Experiment 1 with the following commands:
-   - (cd eval_limited_iteration_gev/;  ./experiment1.sh)
-   - (cd eval_limited_iteration_inv/;  ./experiment1.sh)
-   - (cd eval_limited_iteration_isev/; ./experiment1.sh)
-6. You can conduct Experiment 2 with the following commands:
-   - (cd eval_mask_based_scaling_with_ideal_mmse/; ./experiment2.sh)
-7. You can conduct Experiment 1 with the following commands:
-   - (cd eval_limited_iteration_gev/;  ./experiment3.sh)
-   - (cd eval_limited_iteration_inv/;  ./experiment3.sh)
-   - (cd eval_limited_iteration_isev/; ./experiment3.sh)
+6. You can conduct Experiment 1 with the following commands:
+   - (cd eval_limited_iteration_gev/;  ./experiment1_wo_bn.sh; ./experiment1_with_bn.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment1_wo_bn.sh; ./experiment1_with_bn.sh)
+   - (cd eval_limited_iteration_isev/; ./experiment1_wo_bn.sh; ./experiment1_with_bn.sh)
+7. You can conduct Experiment 2 with the following commands:
+   - (cd eval_limited_iteration_gev/;  ./experiment2.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment2.sh)
+   - (cd eval_limited_iteration_isev/; ./experiment2.sh)
+8. You can conduct Experiment 3 with the following commands:
+   - (cd eval_mask_based_scaling_with_ideal_mmse/; ./experiment3.sh)
+9. You can conduct Experiment 4 with the following commands:
+   - (cd eval_limited_iteration_gev/;  ./experiment4.sh)
+   - (cd eval_limited_iteration_inv/;  ./experiment4.sh)
+   - (cd eval_limited_iteration_isev/; ./experiment4.sh)
 
 
