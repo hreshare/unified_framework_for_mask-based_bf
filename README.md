@@ -5,12 +5,12 @@ This repository includes experimental systems used in the manuscript titled ["Ca
 According to the major revision of the manuscript, experiments were revised as follows:
 
 1. Al experiments were renumbered,as Appendix A was moved to Experiment 1.
-2. New Experiment 3 (old Experiment 2) examins not only non-negative and ratio masks but also L1-mean-normalized (MN) and l2-MN masks as scaling masks.
+2. New Experiment 3 (old Experiment 2) examines not only non-negative and ratio masks but also L1-mean-normalized (MN) and l2-MN masks as scaling masks.
 3. New Experiment 4 (old Experiment 3) employs the L1-MN mask instead of non-negative one as a scaling mask.
 
 
 ## How to use
-These systems use the CHiME 4 dataset and depend on its baseline system for this dataset included in the Kaldi Speech Recognition Toolkit. Thus, the following steps are necesarry before using the experimental systems:
+These systems use the CHiME 4 dataset and depend on its baseline system for this dataset included in the Kaldi Speech Recognition Toolkit. Thus, the following steps are necessary before using the experimental systems:
 
 1. Obtain the CHiME 4 dataset. See https://www.chimechallenge.org/challenges/chime4/index .
 2. Set up the Kaldi Speech Recognition Toolkit. See https://github.com/kaldi-asr/kaldi .
