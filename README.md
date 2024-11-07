@@ -23,7 +23,7 @@ After that, do following steps:
    - eval_limited_iteration_inv/
    - eval_limited_iteration_isev/
    - eval_mask_based_scaling_with_ideal_mmse/
-5. Execute 'prepare.sh' under each of the three directories.
+5. Execute 'prepare.sh' under each of the four directories.
 6. You can conduct Experiment 1 with the following commands:
    - (cd eval_limited_iteration_gev/;  ./experiment1_wo_bn.sh; ./experiment1_with_bn.sh)
    - (cd eval_limited_iteration_inv/;  ./experiment1_wo_bn.sh; ./experiment1_with_bn.sh)
