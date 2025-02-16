@@ -39,4 +39,6 @@ After that, do following steps:
    - (cd eval_limited_iteration_inv/;  ./experiment4.sh)
    - (cd eval_limited_iteration_isev/; ./experiment4.sh)
 
+## Cite this work
+    Hiroe, A., Itoyama, K. & Nakadai, K. Can all variations within the unified mask-based beamformer framework achieve identical peak extraction performance?. J AUDIO SPEECH MUSIC PROC. 2024, 66 (2024). https://doi.org/10.1186/s13636-024-00387-x
 
